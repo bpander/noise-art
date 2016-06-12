@@ -1,20 +1,24 @@
+const gutil = require('gulp-util');
+const source = require('vinyl-source-stream');
 const watchify = require('watchify');
 const transpile = require('./transpile.js');
-const gutil = require('gulp-util');
-
-module.exports = (grunt, done) => {
+const env = require('../../build-env.js');
 
 
-    const bundler = watchify(transpile(grunt, done));
+module.exports = (gulp, done) => {
 
-    bundler.bundle();
+    const bundler = watchify(transpile(gulp, done));
 
-    bundler.on('update', () => {
-        gutil.log('Rebuilding');
-        bundler.bundle()
-            .pipe(source('main.js'))
-            .pipe(gulp.dest('dist/assets/scripts'));
-    });
+    const bundle = () => {
+        gutil.log('Bundling scripts');
+        bundler
+            .bundle()
+            .pipe(source(env.SCRIPTS_ENTRY))
+            .pipe(gulp.dest(`${env.DIR_DEST}/${env.SCRIPTS_PATH}`));
+    };
+
+    bundler.on('update', bundle);
+    bundle();
 
     return bundler;
 };

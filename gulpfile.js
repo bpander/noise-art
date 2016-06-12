@@ -10,4 +10,4 @@ gulp.task('build', [ 'scripts:build', 'static:build' ]);
 
 gulp.task('watch', [ 'scripts:watch', 'static:watch' ]);
 
-gulp.task('default', [ 'build' ]);
+gulp.task('default', [ 'static:build', 'watch' ]);
