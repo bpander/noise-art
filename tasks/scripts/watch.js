@@ -13,6 +13,7 @@ module.exports = (gulp, done) => {
         gutil.log('Bundling scripts');
         bundler
             .bundle()
+            .on('error', gutil.log.bind(gutil, 'Browserify Error'))
             .pipe(source(env.SCRIPTS_ENTRY))
             .pipe(gulp.dest(`${env.DIR_DEST}/${env.SCRIPTS_PATH}`));
     };
