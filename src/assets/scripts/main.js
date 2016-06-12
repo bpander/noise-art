@@ -1,3 +1,3 @@
 import App from './App';
 
-window.fapp = new App();
+window.app = new App();
